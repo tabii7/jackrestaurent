@@ -40,62 +40,56 @@
                     </div>
 
                     <!-- Delivery Form -->
-                   <!-- Pickup Form -->
-<div id="pickup-form" class="order-form" style="display: none;">
-    <h3>2. Confirm Pickup Date</h3>
-    <form method="POST" action="{{ route('save.pickup.details') }}" class="row g-3">
-        @csrf
-        <!-- Pickup Date Selection -->
-        <div class="col-12">
-            <label class="form-label">Pickup Date *</label>
-            <select class="form-control" name="pickup_date" id="pickup-date-type" onchange="toggleDateField()">
-                <option value="{{ \Carbon\Carbon::today()->toDateString() }}">Today</option>
-                <option value="future">Future Date</option>
-            </select>
-        </div>
+                    <div id="delivery-form" class="order-form">
+                        <h3>2. Enter your postcode</h3>
+                        <form class="row g-3">
+                            <div class="col-12">
+                                <input type="number" class="form-control" placeholder="Enter your postcode here">
+                            </div>
+                            <div class="buttons" style="padding: 30px;">
+                                <a href="{{ route('shop.index') }}" class="btn theme-btn mt-0"
+                                    style="width: -webkit-fill-available;">Shop Now</a>
+                            </div>
+                        </form>
+                    </div>
 
-        <!-- Future Date Picker (Hidden by Default) -->
-        <div class="col-12" id="future-date-field" style="display: none;">
-            <label class="form-label">Select Future Date *</label>
-            <input type="date" class="form-control" name="future_date" id="future-date">
-        </div>
+                    <!-- Pickup Form -->
+                    <div id="pickup-form" class="order-form" style="display: none;">
+                        <h3>2. Confirm Pickup Date</h3>
+                        <form class="row g-3">
+                            <!-- Pickup Date Selection -->
+                            <div class="col-12">
+                                <label class="form-label">Pickup Date *</label>
+                                <select class="form-control" id="pickup-date-type" onchange="toggleDateField()">
+                                    <option value="today">Today</option>
+                                    <option value="future">Future Date</option>
+                                </select>
+                            </div>
 
-        <!-- Time Slot Selection -->
-        <div class="col-12">
-            <label class="form-label">Choose Pickup Timeslot *</label>
-            <select class="form-control" name="pickup_time" id="time_pickup">
-                <option>Select Time Slot</option>
-                <option>9:00 AM - 10:00 AM</option>
-                <option>10:00 AM - 11:00 AM</option>
-                <option>11:00 AM - 12:00 PM</option>
-            </select>
-        </div>
+                            <!-- Future Date Picker (Hidden by Default) -->
+                            <div class="col-12" id="future-date-field" style="display: none;">
+                                <label class="form-label">Select Future Date *</label>
+                                <input type="date" class="form-control" id="future-date">
+                            </div>
 
-        <!-- Confirm Pickup Button -->
-        <div class="buttons" style="padding: 30px;">
-            <button type="submit" class="btn theme-btn mt-0" style="width: -webkit-fill-available;" id="confirm_pickup">
-                Confirm Pickup
-            </button>
-        </div>
-    </form>
-</div>
+                            <!-- Time Slot Selection -->
+                            <div class="col-12">
+                                <label class="form-label">Choose Pickup Timeslot *</label>
+                                <select class="form-control">
+                                    <option>Select Time Slot</option>
+                                    <option>9:00 AM - 10:00 AM</option>
+                                    <option>10:00 AM - 11:00 AM</option>
+                                    <option>11:00 AM - 12:00 PM</option>
+                                </select>
+                            </div>
 
-<!-- Delivery Form -->
-<div id="delivery-form" class="order-form">
-    <h3>2. Enter your postcode</h3>
-    <form method="POST" action="{{ route('save.delivery.details') }}" class="row g-3">
-        @csrf
-        <div class="col-12">
-            <input type="number" name="postcode" id="postcode" class="form-control" placeholder="Enter your postcode here">
-        </div>
-        <div class="buttons" style="padding: 30px;">
-            <button type="submit" class="btn theme-btn mt-0" style="width: -webkit-fill-available;" id="shop_now">
-                Shop Now
-            </button>
-        </div>
-    </form>
-</div>
-
+                            <!-- Confirm Pickup Button -->
+                            <div class="buttons" style="padding: 30px;">
+                                <a href="{{ route('shop.index') }}" class="btn theme-btn mt-0"
+                                    style="width: -webkit-fill-available;">Confirm Pickup</a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="col-lg-6 col-md-6 col-sm-12 m-auto">

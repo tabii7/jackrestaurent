@@ -11,6 +11,7 @@ use App\Models\Coupon;
 use App\Models\NewUserCoupon;
 use App\Models\PpickupDiscount;
 use App\Models\LoyaltyProgram;
+use Illuminate\Support\Facades\Auth;
 
 use Illuminate\Support\Facades\DB;
 
@@ -18,44 +19,53 @@ use Illuminate\Http\Request;
 
 class AdminController extends Controller
 {
-    //
 
     public function login(Request $request)
     {
-        // Define the correct email and password
-        $correctEmail = 'admin@gmail.com';
-        $correctPassword = '12345678';
-
-        // Validate input
+        // Validate the input
         $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
 
-        // Check if the provided credentials match
-        if ($request->email === $correctEmail && $request->password === $correctPassword) {
-            // Redirect to dashboard if credentials are correct
-            return redirect()->route('admin.dashboard')->with('success', 'Welcome to the admin dashboard!');
+        // Attempt to authenticate the user
+        if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
+            // Redirect to the dashboard if authentication is successful
+            return redirect()->route(route: 'admin.dashboard')->with('success', 'Welcome to the admin dashboard!');
         } else {
-            // Redirect back with an error message if credentials are incorrect
+            // Redirect back with an error message if authentication fails
             return redirect()->route('admin.login')->withErrors(['error' => 'Invalid email or password.']);
         }
     }
 
     public function dashboard()
     {
-        return view('admin.dashboard');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return view('admin.dashboard');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
     }
 
     public function allSauces()
     {
-        $sauces = Sauce::all(); // Assuming you have a Sauce model
-        return view('admin.all_sauce', compact('sauces'));
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $sauces = Sauce::all(); // Assuming you have a Sauce model
+            return view('admin.all_sauce', compact('sauces'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
     public function editSauce($id)
     {
-        $sauce = Sauce::findOrFail($id);
-        return response()->json($sauce);
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $sauce = Sauce::findOrFail($id);
+            return response()->json($sauce);
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function updateSauce(Request $request, $id)
@@ -73,20 +83,35 @@ class AdminController extends Controller
 
     public function deleteSauce($id)
     {
-        $sauce = Sauce::findOrFail($id);
-        $sauce->delete();
-        return redirect()->back()->with('success', 'Sauce deleted successfully.');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $sauce = Sauce::findOrFail($id);
+            $sauce->delete();
+            return redirect()->back()->with('success', 'Sauce deleted successfully.');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
     public function allDrinks()
     {
-        $drinks = Drink::all(); // Assuming you have a Drink model
-        return view('admin.all_drinks', compact('drinks'));
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $drinks = Drink::all(); // Assuming you have a Drink model
+            return view('admin.all_drinks', compact('drinks'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function editDrink($id)
     {
-        $Drink = Drink::findOrFail($id);
-        return response()->json($Drink);
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $Drink = Drink::findOrFail($id);
+            return response()->json($Drink);
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function updateDrink(Request $request, $id)
@@ -104,20 +129,29 @@ class AdminController extends Controller
 
     public function deleteDrink($id)
     {
-        $Drink = Drink::findOrFail($id);
-        $Drink->delete();
-        return redirect()->back()->with('success', 'Drink deleted successfully.');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $Drink = Drink::findOrFail($id);
+            $Drink->delete();
+            return redirect()->back()->with('success', 'Drink deleted successfully.');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     // All products function
     public function allProducts()
     {
-        $products = Product::all();
-    
-        return view('admin.all_products', compact('products'));
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $products = Product::all();
+            return view('admin.all_products', compact('products'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
-    
- 
+
+
 
     public function addNewProduct()
     {
@@ -130,20 +164,34 @@ class AdminController extends Controller
     // All orders function
     public function allOrders()
     {
-        return view('admin.all_orders');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return view('admin.all_orders');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
     }
 
     // All extras function
     public function allExtras()
     {
-        $extras = Extra::all();
-        return view('admin.all_extras', compact('extras'));
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $extras = Extra::all();
+            return view('admin.all_extras', compact('extras'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function editExtra($id)
     {
-        $extra = Extra::findOrFail($id);
-        return response()->json($extra);
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $extra = Extra::findOrFail($id);
+            return response()->json($extra);
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function updateExtra(Request $request, $id)
@@ -181,7 +229,11 @@ class AdminController extends Controller
     // Add new sauce function
     public function addNewSauce()
     {
-        return view('admin.add_new_sauce');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return view('admin.add_new_sauce');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
     }
 
 
@@ -189,20 +241,33 @@ class AdminController extends Controller
     // Add new extras function
     public function addNewExtras()
     {
-        return view('admin.add_new_extras');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return view('admin.add_new_extras');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
     }
 
     // Add new drinks function
     public function addNewDrinks()
     {
-        return view('admin.add_new_drinks');
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return view('admin.add_new_drinks');
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
     }
 
     // Add new category function
     public function category()
     {
-        $categories = Category::all();
-        return view('admin.add_new_category', compact('categories'));
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $categories = Category::all();
+            return view('admin.add_new_category', compact('categories'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
     /* Store a new category */
     public function storecategory(Request $request)
@@ -276,8 +341,12 @@ class AdminController extends Controller
     // Order details function
     public function orderDetail()
     {
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            return view('admin.order_detail'); // Pass the order ID to the view
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
         // You can fetch the order details by ID here
-        return view('admin.order_detail'); // Pass the order ID to the view
     }
 
     // Admin login function
@@ -344,7 +413,7 @@ class AdminController extends Controller
         return redirect()->back()->with('success', 'Sauce added successfully!');
     }
 
-       
+
 
     public function loyalty_program()
     {
@@ -378,55 +447,60 @@ class AdminController extends Controller
     }
 
     public function updateCoupon(Request $request)
-{
-    $request->validate([
-        'points' => 'required|integer',
-        'discount' => 'required|numeric',
-        'expiry' => 'required|integer',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-    ]);
+    {
+        $request->validate([
+            'points' => 'required|integer',
+            'discount' => 'required|numeric',
+            'expiry' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    $coupon = Coupon::findOrFail($request->id);
+        $coupon = Coupon::findOrFail($request->id);
 
-    // Handle optional image update
-    if ($request->hasFile('image')) {
-        // Delete the old image
+        // Handle optional image update
+        if ($request->hasFile('image')) {
+            // Delete the old image
+            if ($coupon->image && file_exists(storage_path('app/public/' . $coupon->image))) {
+                unlink(storage_path('app/public/' . $coupon->image));
+            }
+            // Save the new image
+            $imagePath = $request->file('image')->store('coupons', 'public');
+            $coupon->image = $imagePath;
+        }
+
+        // Update other fields
+        $coupon->update([
+            'points' => $request->points,
+            'discount' => $request->discount,
+            'expiry' => $request->expiry,
+        ]);
+
+        return redirect()->back()->with('success', 'Coupon updated successfully!');
+    }
+    public function deleteCoupon($id)
+    {
+        $coupon = Coupon::findOrFail($id);
+
+        // Delete the image
         if ($coupon->image && file_exists(storage_path('app/public/' . $coupon->image))) {
             unlink(storage_path('app/public/' . $coupon->image));
         }
-        // Save the new image
-        $imagePath = $request->file('image')->store('coupons', 'public');
-        $coupon->image = $imagePath;
+
+        $coupon->delete();
+
+        return redirect()->back()->with('success', 'Coupon deleted successfully!');
     }
-
-    // Update other fields
-    $coupon->update([
-        'points' => $request->points,
-        'discount' => $request->discount,
-        'expiry' => $request->expiry,
-    ]);
-
-    return redirect()->back()->with('success', 'Coupon updated successfully!');
-}
-public function deleteCoupon($id)
-{
-    $coupon = Coupon::findOrFail($id);
-
-    // Delete the image
-    if ($coupon->image && file_exists(storage_path('app/public/' . $coupon->image))) {
-        unlink(storage_path('app/public/' . $coupon->image));
-    }
-
-    $coupon->delete();
-
-    return redirect()->back()->with('success', 'Coupon deleted successfully!');
-}
 
     public function new_user_voucher()
     {
-        $vouchers = NewUserCoupon::all();
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $vouchers = NewUserCoupon::all();
 
-        return view('admin.new_user_voucher', compact('vouchers'));
+            return view('admin.new_user_voucher', compact('vouchers'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function storeVoucher(Request $request)
@@ -453,40 +527,55 @@ public function deleteCoupon($id)
     }
 
     public function deleteVoucher($id)
-{
-    // Find the voucher by its ID
-    $voucher = NewUserCoupon::findOrFail($id);
+    {
+        // Find the voucher by its ID
+        $voucher = NewUserCoupon::findOrFail($id);
 
-    // Delete the image file from storage
-    if ($voucher->image && \Storage::exists('public/' . $voucher->image)) {
-        \Storage::delete('public/' . $voucher->image);
+        // Delete the image file from storage
+        if ($voucher->image && \Storage::exists('public/' . $voucher->image)) {
+            \Storage::delete('public/' . $voucher->image);
+        }
+
+        // Delete the voucher
+        $voucher->delete();
+
+        return redirect()->back()->with('success', 'Voucher deleted successfully!');
     }
-
-    // Delete the voucher
-    $voucher->delete();
-
-    return redirect()->back()->with('success', 'Voucher deleted successfully!');
-}
 
     public function discount_voucher()
     {
-        $discount = PpickupDiscount::first();
-        return view('admin.discount_voucher', compact('discount'));
+        if (Auth::check() && Auth::user()->is_admin == 1) {
+            $discount = PpickupDiscount::first();
+            return view('admin.discount_voucher', compact('discount'));
+        } else {
+            return redirect()->route('admin.login'); // Redirect if not authenticated or not an admin
+        }
+
     }
 
     public function updatePpickupDiscount(Request $request)
-{
-    $request->validate([
-        'amount' => 'required|numeric|min:0',
-    ]);
+    {
+        $request->validate([
+            'amount' => 'required|numeric|min:0',
+        ]);
 
-    $discount = PpickupDiscount::first(); // Check if a record exists
-    if ($discount) {
-        $discount->update(['amount' => $request->amount]);
-    } else {
-        PpickupDiscount::create(['amount' => $request->amount]);
+        $discount = PpickupDiscount::first(); // Check if a record exists
+        if ($discount) {
+            $discount->update(['amount' => $request->amount]);
+        } else {
+            PpickupDiscount::create(['amount' => $request->amount]);
+        }
+
+        return redirect()->back()->with('success', 'Pickup Discount updated successfully!');
     }
 
-    return redirect()->back()->with('success', 'Pickup Discount updated successfully!');
-}
+    public function logout(Request $request)
+    {
+        Auth::logout(); // Logs out the user
+
+        $request->session()->invalidate(); // Invalidate the session
+        $request->session()->regenerateToken(); // Regenerate CSRF token
+
+        return redirect('/admin_login')->with('success', 'You have been logged out successfully.');
+    }
 }

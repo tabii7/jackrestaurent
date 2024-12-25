@@ -1,35 +1,33 @@
 @extends('shoplayout')
 
-@section('content')  
+@section('content')
     <!--  account section starts -->
     <section class="account-section section-b-space pt-0">
         <div class="container">
             <div class="layout-sec">
                 <div class="row g-lg-4 g-4">
                     <div class="col-lg-12">
-                        <div class="process-section d-none">
+                        <div class="process-section">
                             <ul class="process-list">
                                 <li class="done">
-                                    <a href="#">
+                                    <a href="{{ route('cart.view') }}">
                                         <div class="process-icon">
                                             <img class="img-fluid icon" src="assets/images/svg/user.svg" alt="user">
                                         </div>
                                         <h6>Account</h6>
                                     </a>
                                 </li>
-
-                            @if(session('order.type') !== 'Pickup')
-                            <li class="done">
-                                    <a href="#">
+                                <li class="done">
+                                    <a href="{{ route('select.address') }}">
                                         <div class="process-icon">
-                                            <img class="img-fluid icon" src="{{ asset('assets/images/svg/location-active.svg') }}" alt="location">
+                                            <img class="img-fluid icon" src="assets/images/svg/location-active.svg"
+                                                alt="location">
                                         </div>
                                         <h6>Address</h6>
                                     </a>
                                 </li>
-                                @endif
                                 <li class="done">
-                                    <a href="#">
+                                    <a href="{{ route('payment') }}">
                                         <div class="process-icon">
                                             <img class="img-fluid icon" src="assets/images/svg/wallet-add-active.svg"
                                                 alt="wallet-add">
@@ -38,7 +36,7 @@
                                     </a>
                                 </li>
                                 <li class="active">
-                                    <a href="#">
+                                    <a href="{{ route('confirm_order') }}">
                                         <div class="process-icon">
                                             <img class="img-fluid icon" src="assets/images/svg/verify-active.svg"
                                                 alt="verify">
@@ -55,7 +53,7 @@
                                 Sit and relax while your order is being worked on. It’ll take
                                 5 min before you get it.
                             </p>
-                           
+
                         </div>
                     </div>
                     <!-- <div class="col-lg-4">

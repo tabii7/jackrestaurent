@@ -235,11 +235,15 @@
 
                                 <!-- Logout -->
                                 <li class="sidebar-list">
-                                    <a class="sidebar-link sidebar-title" href="#">
-                                        <i class="fas fa-sign-out-alt"></i>
-                                        <span>Logout</span>
-                                    </a>
+                                    <form action="{{ route('admin.logout') }}" method="POST" style="display: inline;">
+                                        @csrf
+                                        <button type="submit" class="sidebar-link sidebar-title" style="background: none; border: none; width: 100%; text-align: left;">
+                                            <i class="fas fa-sign-out-alt"></i>
+                                            <span>Logout</span>
+                                        </button>
+                                    </form>
                                 </li>
+
                             </ul>
                         </div>
 

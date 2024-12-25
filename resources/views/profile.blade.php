@@ -1,6 +1,6 @@
 @extends('shoplayout')
 
-@section('content')  
+@section('content')
 
     <!-- profile section starts -->
     <section class="profile-section section-b-space">
@@ -13,7 +13,7 @@
                         </div>
                         <div class="profile-name">
                             <h5 class="user-name">Mark Jecno</h5>
-                            <h6>mark-jecno@gmail.com</h6>  
+                            <h6>mark-jecno@gmail.com</h6>
                         </div>
                         <ul class="profile-list">
                             <li class="active">
@@ -26,10 +26,10 @@
                             </li>
                             <li>
                                 <i class="ri-map-pin-line"></i>
-                                <a href="{{ route('profile.view') }}">Saved Address</a>
+                                <a href="{{ route('address.saved') }}">Saved aAddress</a>
                             </li>
-                          
-                        
+
+
                             <li>
                                 <i class="ri-logout-box-r-line"></i>
                                 <a href="#log-out" data-bs-toggle="modal">Log Out</a>

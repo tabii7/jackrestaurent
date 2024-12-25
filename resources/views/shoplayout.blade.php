@@ -60,12 +60,17 @@
                 <div class="dropdown-button">
                 <a href="{{ auth()->check() ? route('select.address') : route('cart.view') }}">
                 <div class="cart-button">
-                       
+
                        <i class="ri-shopping-cart-line cart-bag"></i>
+                       @if(session()->has('cart') && is_array(session('cart')))
+                <span class="cart-count">{{ count(session('cart')) }}</span>
+                    @else
+                        <span class="cart-count">0</span>
+                    @endif
                    </div>
                 </a>
-                  
-                   
+
+
                 </div>
 
                 <!-- Profile Dropdown -->
@@ -259,7 +264,7 @@
     <!-- tap to top end -->
 
 
-   
+
 
     <!-- edit name modal starts -->
     <div class="modal profile-modal fade" id="name" aria-hidden="true" aria-labelledby="exampleModalToggleName"

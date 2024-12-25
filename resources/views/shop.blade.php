@@ -81,7 +81,7 @@
 <!-- Featured Restaurants section starts -->
 <section class="restaurant-list section-b-space banner-section ratio3_2" style=" padding-top: 0px;">
     <div class="container">
- 
+
         <div class="col-lg-12" style="   padding-bottom: 50px; ">
             <div class="order-status-content">
 
