@@ -17,10 +17,5 @@ class Payment extends Model
         'amount',          // Total payment amount
         'payment_method',  // Payment method (e.g., Credit Card, PayPal)
         'status',          // Payment status (e.g., pending, completed, failed)
-        'order_type',        // Save order type (Pickup or Delivery)
-        'order_date',        // Save order date (null for Delivery)
-        'order_time',        // Save order time (null for Delivery)
-        'order_postcode',    // Save postcode (null for Pickup)
-        'user_id'
     ];
 }

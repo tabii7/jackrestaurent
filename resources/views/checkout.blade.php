@@ -1,6 +1,6 @@
 @extends('shoplayout')
 
-@section('content')  
+@section('content')
 <!--  account section starts -->
 
 <div class="container my-4">
@@ -21,7 +21,7 @@
                 </thead>
                 <tbody>
 
-             
+
     @foreach ($cart as $index => $item)
     <tr>
         <td>{{ $item['product_name'] }}</td>
@@ -95,18 +95,14 @@
                                     <h6>Account</h6>
                                 </a>
                             </li>
-
-                            @if(session('order.type') !== 'Pickup')
                             <li>
-                                    <a href="{{ route('select.address') }}">
-                                        <div class="process-icon">
-                                            <img class="img-fluid icon" src="{{ asset('assets/images/svg/location.svg') }}" alt="location">
-                                        </div>
-                                        <h6>Address</h6>
-                                    </a>
-                                </li>
-                                @endif
-
+                                <a href="{{ route('select.address') }}">
+                                    <div class="process-icon">
+                                        <img class="img-fluid icon" src="{{ asset('assets/images/svg/location.svg') }}" alt="location">
+                                    </div>
+                                    <h6>Address</h6>
+                                </a>
+                            </li>
                             <li>
                                 <a href="{{ route('payment') }}">
                                     <div class="process-icon">
@@ -137,12 +133,7 @@
                             <div class="account-btn d-flex justify-content-center gap-2">
                                 <a  href="{{ route('signin') }}" class="btn theme-outline mt-0">SIGN IN</a>
                                 <a  href="{{ route('signup') }}" class="btn theme-outline mt-0">SIGN UP</a>
-                                @if(session('order.type') !== 'Pickup')
                                 <a  href="{{ route('select.address') }}" class="btn theme-outline mt-0">SKIP</a>
-                                @else
-                                <a  href="{{ route('payment') }}" class="btn theme-outline mt-0">SKIP</a>
-                                
-                                @endif
                             </div>
                         </div>
                     </div>
@@ -170,14 +161,14 @@
                                         @endif
                                         @if (!empty($item['extras']))
                                             <h5 class="ingredients-text">Extras</h5>
-                                            
+
                                             @foreach ($item['extras'] as $extra)
                                             <div class="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
                                                     <h6 class="place">{{ $extra['name'] }} x {{ $extra['quantity'] }}</h6>
                                                     <h6 class="extras-price">${{ $extra['quantity'] * $extra['price'] }}</h6>
                                             </div>
                                             @endforeach
-                                                
+
 
                                         @endif
 
@@ -191,24 +182,24 @@
                                                     <h6 class="extras-price">${{$drink['quantity'] * $drink['price'] }}</h6>
                                                 </div>
                                                     @endforeach
-                                                
+
                                             @endif
-                                            
+
                                             @if (!empty($item['sauces']))
                                             <h5 class="ingredients-text">Sauces</h5>
                                             @if (!empty($item['sauces']))
-                                            
+
                                             @foreach ($item['sauces'] as $sauce)
                                             <div class="d-flex align-items-center justify-content-between mt-md-2 mt-1 gap-1">
                                                     <h6 class="place">
-                                                        {{ $sauce['name']}}   
+                                                        {{ $sauce['name']}}
                                                     </h6>
 
                                                     <h6 class="sauce-price">${{ $sauce['price'] }}</h6>
 
                                                 </div>
                                                     @endforeach
-                                                  
+
                                                 @endif
                                             @endif
                                     </div>
@@ -222,25 +213,7 @@
                         @endforeach
                     </ul>
 
-                            <h5 class="bill-details-title fw-semibold dark-text">
-                                Bill Details
-                            </h5>
-                            <div class="sub-total">
-                                <h6 class="content-color fw-normal">Sub Total</h6>
-                                <h6 class="fw-semibold">${{ $total_price }}</h6>
-                            </div>
-                            <div class="sub-total">
-                                <h6 class="content-color fw-normal">
-                                    Delivery Charge (2 kms)
-                                </h6>
-                                <h6 class="fw-semibold success-color">Free</h6>
-                            </div>
                            
-                            
-                            <div class="grand-total">
-                                <h6 class="fw-semibold dark-text">To Pay</h6>
-                                <h6 class="fw-semibold amount">${{ $total_price }}</h6>
-                            </div>
                             <a href="{{ route('select.address') }}" class="btn theme-btn restaurant-btn w-100 rounded-2">PROCEED TO ADDRESS</a>
 
                             <img class="dots-design" src="{{ asset('assets/images/svg/dots-design.svg') }}" alt="dots">

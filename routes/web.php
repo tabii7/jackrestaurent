@@ -4,13 +4,18 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\WebController;
 use App\Http\Controllers\StripeController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\LoyaltyProgramController;
+
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+// Route::get('/dashboard', function () {
+//     return view('dashboard');
+// })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -32,12 +37,13 @@ Route::get('/checkout', [WebController::class, 'checkout'])->name('cart.view');
 Route::get('/profile', [WebController::class, 'profile'])->name('profile.view');
 Route::get('/orders', [WebController::class, 'orders'])->name('orders.index');
 Route::get('/saved_address', [WebController::class, 'saved_address'])->name('address.saved');
+Route::post('/store_address', [WebController::class, 'store_address'])->name('store_address');
+Route::post('/update_address', [WebController::class, 'update_address'])->name('update_address');
 
 Route::get('/select_address', [WebController::class, 'select_address'])->name('select.address');
 Route::get('/payment', [WebController::class, 'payment'])->name('payment');
 Route::get('/confirm_order', [WebController::class, 'confirm_order'])->name('confirm_order');
 
-use App\Http\Controllers\AdminController;
 
 
 Route::get('/sauces', [AdminController::class, 'allSauces'])->name('all.sauces');
@@ -91,13 +97,11 @@ Route::post('/admin/vouchers', [AdminController::class, 'storeVoucher'])->name('
 Route::delete('/admin/vouchers/{id}', [AdminController::class, 'deleteVoucher'])->name('admin.deleteVoucher');
 Route::post('/admin/ppickup-discount', [AdminController::class, 'updatePpickupDiscount'])->name('admin.updatePpickupDiscount');
 
-use App\Http\Controllers\ProductController;
 
 Route::post('/products', [ProductController::class, 'store'])->name('products.store');
 Route::delete('/product/delete/{id}', [ProductController::class, 'deleteproduct'])->name('delete.product');
 
 
-use App\Http\Controllers\LoyaltyProgramController;
 
 Route::post('/loyalty-program/update', [LoyaltyProgramController::class, 'update'])->name('loyalty_program.update');
 Route::get('/get-product-options/{id}', function ($id) {
@@ -120,8 +124,12 @@ Route::get('/get-product-options/{id}', function ($id) {
     ]);
 });
 
+Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+
 
 use App\Http\Controllers\CartController;
+
 
 Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
 Route::get('/cart', [CartController::class, 'viewCart'])->name('cart.view');
@@ -137,10 +145,6 @@ Route::post('/update-selected-address', [CartController::class, 'updateSelectedA
 Route::post('/create-payment', [StripeController::class, 'createPaymentIntent'])->name('create.payment');
 
 Route::post('/save-payment', [CartController::class, 'storePaymentDetails'])->name('save.payment.details');
-
-
-Route::post('/save-pickup-details', [CartController::class, 'savePickupDetails'])->name('save.pickup.details');
-Route::post('/save-delivery-details', [CartController::class, 'saveDeliveryDetails'])->name('save.delivery.details');
 
 
 require __DIR__.'/auth.php';

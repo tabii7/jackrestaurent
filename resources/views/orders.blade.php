@@ -1,6 +1,6 @@
 @extends('shoplayout')
 
-@section('content')  
+@section('content')
 
     <!-- profile section starts -->
     <section class="profile-section section-b-space">
@@ -28,7 +28,7 @@
                                 <i class="ri-map-pin-line"></i>
                                 <a href="saved-address.html">Saved Address</a>
                             </li>
-                         
+
                             <li>
                                 <i class="ri-logout-box-r-line"></i>
                                 <a href="#log-out" data-bs-toggle="modal">Log Out</a>

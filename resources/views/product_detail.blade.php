@@ -47,9 +47,10 @@
                                         </div>
                                     </li>
                                 @endif
-
                                 <!-- Salad Options -->
                                 @if($product->salad == 1)
+
+                                
                                     <li>
                                         <div class="horizontal-product-box">
                                             <div class="product-content">
@@ -87,9 +88,13 @@
                                                 $sauces = DB::table('sauces')
                                                     ->whereIn('id', $sauceIds)
                                                     ->get();
+
+                                                   
                                             @endphp
                                             @if($sauces->isNotEmpty())
                                                 @foreach($sauces as $sauce)
+                                                <!-- <div class="d-flex">
+                                                <img src="{{ $sauce->image ? asset('storage/' . $sauce->image) : asset('default-image.jpg') }}" alt="Sauce Image" style="height: 45px;border-radius: 29px; margin-right:10px;">
                                                     <h6 class="ingredients-text">
                                                         <label>
                                                             <input type="checkbox" name="sauces[]" value="{{ $sauce->id }}"
@@ -97,6 +102,15 @@
                                                             {{ $sauce->name }} (+£{{ number_format($sauce->price, 2) }})
                                                         </label>
                                                     </h6>
+                                                </div> -->
+
+                                                <div style="  padding: 5px;   border-bottom: 1px solid rgb(233 213 213)">
+                                                <input type="checkbox" name="sauces[]" value="{{ $sauce->id }}"
+                                                class="addon-checkbox" data-price="{{ $sauce->price }}">
+                                                 <img src="{{ $sauce->image ? asset('storage/' . $sauce->image) : asset('default-image.jpg') }}" alt="Sauce Image" style="height: 45px; margin-right:10px;">
+
+                                                 {{ $sauce->name }} (+£{{ number_format($sauce->price, 2) }})
+                                                 </div>
                                                 @endforeach
                                             @else
                                                 <h6 class="ingredients-text">N/A</h6>
@@ -119,27 +133,34 @@
                                                 $extras = DB::table('extras')
                                                     ->whereIn('id', $extraIds)
                                                     ->get();
+
                                             @endphp
-                                            @if($extras->isNotEmpty())
-                                                @foreach($extras as $extra)
-                                                    <h6 class="ingredients-text"
-                                                        style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <label style=" float: inline-start;">
-                                                            <input type="checkbox" name="extras[]" value="{{ $extra->id }}"
-                                                                class="addon-checkbox" data-price="{{ $extra->price }}">
-                                                            {{ $extra->name }} (+£{{ number_format($extra->price, 2) }})
-                                                        </label>
-                                                        <div class="plus-minus" style="display: flex; align-items: center;">
-                                                            <i class="ri-subtract-line sub"></i>
-                                                            <input type="number" value="1" min="1" max="10"
-                                                                class="addon-quantity" style=" text-align: center;">
-                                                            <i class="ri-add-line add"></i>
-                                                        </div>
-                                                    </h6>
-                                                @endforeach
-                                            @else
-                                                <h6 class="ingredients-text">N/A</h6>
-                                            @endif
+                                           @if($extras->isNotEmpty())
+                                            @foreach($extras as $extra)
+                                            <div class="" style="display: flex; justify-content: space-around;">
+                                                <input type="checkbox" name="extras[]" value="{{ $extra->id }}"
+                                                    class="addon-checkbox" data-price="{{ $extra->price }}">
+                                                <img src="{{ $extra->image ? asset('storage/' . $extra->image) : asset('default-image.jpg') }}" 
+                                                    alt="Extra Image" style="height: 45px; margin-right:10px;">
+                                                <h6 class="ingredients-text"
+                                                    style="display: flex; justify-content: space-between; align-items: center;">
+                                                    <label style="float: inline-start;">
+                                                        {{ $extra->name }} (+£{{ number_format($extra->price, 2) }})
+                                                    </label>
+                                                </h6>
+
+                                                <div class="plus-minus" style="display: flex; align-items: center;">
+                                                    <i class="ri-subtract-line sub" data-id="{{ $extra->id }}"></i>
+                                                    <input type="number" value="1" min="1" max="10"
+                                                        class="addon-quantity" data-id="{{ $extra->id }}" data-price="{{ $extra->price }}" 
+                                                        style="text-align: center;">
+                                                    <i class="ri-add-line add" data-id="{{ $extra->id }}"></i>
+                                                </div>
+                                            </div>
+                                            @endforeach
+                                        @else
+                                            <h6 class="ingredients-text">N/A</h6>
+                                        @endif
                                         </div>
                                     </div>
                                 </li>
@@ -148,7 +169,7 @@
                                 <li>
                                     <div class="horizontal-product-box">
                                         <div class="product-content">
-                                            <div class="d-flex align-items-center justify-content-between">
+                                            <div class="d-flex align-items-center justify-content-between" >
                                                 <h5>Any Drinks?</h5>
                                             </div>
                                             @php
@@ -158,23 +179,30 @@
                                                 $drinks = DB::table('drinks')
                                                     ->whereIn('id', $drinkIds)
                                                     ->get();
+
+                                                    
                                             @endphp
                                             @if($drinks->isNotEmpty())
                                                 @foreach($drinks as $drink)
-                                                    <h6 class="ingredients-text"
-                                                        style="display: flex; justify-content: space-between; align-items: center;">
-                                                        <label style="margin-right: auto;">
-                                                            <input type="checkbox" name="drinks[]" value="{{ $drink->id }}"
-                                                                class="addon-checkbox" data-price="{{ $drink->price }}">
-                                                            {{ $drink->name }} (+£{{ number_format($drink->price, 2) }})
-                                                        </label>
-                                                        <div class="plus-minus" style="display: flex; align-items: center;">
-                                                            <i class="ri-subtract-line sub"></i>
-                                                            <input type="number" value="1" min="1" max="10"
-                                                                class="addon-quantity" style=" text-align: center;">
-                                                            <i class="ri-add-line add"></i>
-                                                        </div>
-                                                    </h6>
+                                                <div style="display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 10px;">
+                                                    <input type="checkbox" name="drinks[]" value="{{ $drink->id }}" 
+                                                        class="addon-checkbox" data-price="{{ $drink->price }}" style="margin-right: 10px;">
+                                                    
+                                                    <img src="{{ $drink->image ? asset('storage/' . $drink->image) : asset('default-image.jpg') }}" 
+                                                        alt="Drink Image" style="height: 45px; width: 45px; border-radius: 29px; object-fit: cover;">
+
+                                                    <label class="ingredients-text" style="flex-grow: 1; margin: 0 10px;">
+                                                        {{ $drink->name }} (+£{{ number_format($drink->price, 2) }})
+                                                    </label>
+                                                    
+                                                    <div class="plus-minus" style="display: flex; align-items: center; gap: 0px;">
+                                                        <i class="ri-subtract-line sub" style="cursor: pointer;"></i>
+                                                        <input type="number" value="1" min="1" max="10" 
+                                                            class="addon-quantity" style="width: 30px; text-align: center;">
+                                                        <i class="ri-add-line add" style="cursor: pointer;"></i>
+                                                    </div>
+                                                </div>
+
 
                                                 @endforeach
                                             @else
@@ -305,12 +333,14 @@
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
+
             return response.json();
         })
         .then(data => {
             if (data.message) {
-                alert(data.message);
                 updateCartSummary(data.cart);
+                window.location.reload();
+
             }
         })
         .catch(error => {
